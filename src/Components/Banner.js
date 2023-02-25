@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 // import { movies } from './getMovies'
-import {api_key} from "./apicreds";
+
 import axios from "axios";
 export default class Banner extends Component {
     constructor(){
@@ -12,7 +12,7 @@ export default class Banner extends Component {
         }
     }
     async componentDidMount() {
-        const nowPlaying = await axios.get(`https://api.themoviedb.org/3/movie/now_playing?api_key=${api_key}&language=en-US&page=1`)
+        const nowPlaying = await axios.get(`https://api.themoviedb.org/3/movie/now_playing?api_key=${process.env.REACT_APP_API_KEY}&language=en-US&page=1`)
         let images_temp=[]
         let titles_temp=[]
         let overview_temp=[]

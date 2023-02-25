@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { movies } from './getMovies';
 
 import axios from 'axios';
-import { api_key } from './apicreds';
+
 export default class Movies extends Component {
 	constructor() {
 		super();
@@ -17,8 +17,8 @@ export default class Movies extends Component {
 	async componentDidMount() {
 		this.handleWatchlistState();
 		console.log("Running ComponentDidMount from movies.js")
-		//https://api.themoviedb.org/3/movie/popular?api_key=013dfccded672dba9de8afe774211e22&language=en-US&page=1
-		const moviePromise = await axios.get(`https://api.themoviedb.org/3/movie/popular?api_key=${api_key}&language=en-US&page=${this.state.currPage}`)
+		
+		const moviePromise = await axios.get(`https://api.themoviedb.org/3/movie/popular?api_key=${process.env.REACT_APP_API_KEY}&language=en-US&page=${this.state.currPage}`)
 		this.setState({
 			movieData: [...(moviePromise.data.results)]
 		})
@@ -26,7 +26,7 @@ export default class Movies extends Component {
 	changeMovies=async()=>{
 		console.log("Change movies called");
 		console.log(this.state.currPage);
-		const moviePromise = await axios.get(`https://api.themoviedb.org/3/movie/popular?api_key=${api_key}&language=en-US&page=${this.state.currPage}`)
+		const moviePromise = await axios.get(`https://api.themoviedb.org/3/movie/popular?api_key=${process.env.REACT_APP_API_KEY}&language=en-US&page=${this.state.currPage}`)
 		this.setState({
 			movieData: [...(moviePromise.data.results)]
 		})
@@ -109,7 +109,9 @@ export default class Movies extends Component {
 		// </div>
 		return (
 			<div className={'container-fluid'}>
+				<hr/>
 				<h3 className='text-center'>Trending</h3>
+				<hr/>
 				<div className="movies-space row row-cols-auto row-cols-md-2 row-cols-lg-3  row-cols-sm-1 row-cols-xs-1 row-cols-xl-4 g-4">
 
 						{
@@ -146,7 +148,7 @@ export default class Movies extends Component {
 						{
 							this.state.pageArr.map((page)=>{
 								return (
-									<li role="button" className="page-item pe-auto"><a className="page-link" onClick={()=>this.goToPage(page)}>{page}</a></li>
+									<li key={page} role="button" className="page-item pe-auto"><a className="page-link" onClick={()=>this.goToPage(page)}>{page}</a></li>
 								)
 							})
 						}
